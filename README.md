@@ -1,5 +1,5 @@
 
-Updates Only For Myself
+Update Only For Myself
 
 ### Dependencies and Credits
 - **Modified from Zsh Theme ys**
