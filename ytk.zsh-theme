@@ -1,15 +1,7 @@
 # Modified from Zsh Theme ys
 # Mar 2013 Yad Smood
 
-# Conda
-local conda_prompt='$(conda_prompt_info)'
-conda_prompt_info() {
-    if [ -n "$CONDA_DEFAULT_ENV" ]; then
-        echo -n "%{$reset_color%}%{$fg[yellow]%} < $CONDA_DEFAULT_ENV > %{$reset_color%}"
-    else
-        echo -n ''
-    fi
-}
+
 
 # VCS
 YS_VCS_PROMPT_PREFIX1=" %{$reset_color%}on%{$fg[blue]%} "
@@ -52,11 +44,20 @@ ys_hg_prompt_info() {
 
 # Virtualenv
 local venv_info='$(virtenv_prompt)'
-YS_THEME_VIRTUALENV_PROMPT_PREFIX=" %{$fg[green]%}"
-YS_THEME_VIRTUALENV_PROMPT_SUFFIX=" %{$reset_color%}%"
 virtenv_prompt() {
-	[[ -n "${VIRTUAL_ENV:-}" ]] || return
-	echo "${YS_THEME_VIRTUALENV_PROMPT_PREFIX}${VIRTUAL_ENV:t}${YS_THEME_VIRTUALENV_PROMPT_SUFFIX}"
+  if [[ -n "$VIRTUAL_ENV" ]]; then
+    echo "%{$reset_color%}%{$fg[yellow]%} <uv|$(basename $VIRTUAL_ENV)>%{$reset_color%}"
+  fi
+}
+
+# Conda
+local conda_prompt='$(conda_prompt_info)'
+conda_prompt_info() {
+    if [ -n "$CONDA_DEFAULT_ENV" ]; then
+        echo -n "%{$reset_color%}%{$fg[yellow]%} <conda|$CONDA_DEFAULT_ENV> %{$reset_color%}"
+    else
+        echo -n ''
+    fi
 }
 
 local exit_code="%(?,,C:%{$fg[red]%}%?%{$reset_color%})"
