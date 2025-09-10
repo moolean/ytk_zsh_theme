@@ -9,12 +9,12 @@ YS_VCS_PROMPT_SUFFIX="%{$reset_color%}"
 # Git info (super lightweight)
 # only shows current branch or commit hash
 git_branch_info() {
-  # 判断是不是 git 仓库
+  # judge if we're in a git repo
   if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    # 获取当前分支名（或者 commit 短 SHA）
+    # get current branch name (or commit short SHA)
     local branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
     if [[ "$branch" == "HEAD" ]]; then
-      # 游离 HEAD 情况，显示 commit 短哈希
+      # detached HEAD state, show commit short hash
       branch=$(git rev-parse --short HEAD 2>/dev/null)
     fi
     echo -n "${YS_VCS_PROMPT_PREFIX1}git${YS_VCS_PROMPT_PREFIX2}${branch}${YS_VCS_PROMPT_SUFFIX}"
