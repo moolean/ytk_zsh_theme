@@ -1,6 +1,6 @@
-# ytk_zsh_theme
+# Lightweight Oh My Zsh Theme
 
-A compact Oh My Zsh theme focused on practical signal density.
+A lightweight Oh My Zsh theme focused on practical signal density.
 
 The prompt is designed to stay readable in local terminals, remote shells, containers, and VS Code integrated terminals while still surfacing the information that matters most:
 
@@ -14,13 +14,13 @@ The prompt is designed to stay readable in local terminals, remote shells, conta
 ## Prompt Example
 
 ```text
-┌─ [linux-x64/ubuntu] yaotiankuo ~
+┌─ [linux-x64/ubuntu] user ~
 └─ $
 
-┌─ [linux-x64/ubuntu] yaotiankuo ~/ytk_zsh_theme @main <conda|all>
+┌─ [linux-x64/ubuntu] user ~/project @main <conda|all>
 └─ $
 
-+- [linux-x64/ubuntu] yaotiankuo ~ <exit|127|command-not-found>
++- [linux-x64/ubuntu] user ~ <exit|127|command-not-found>
 `- $
 ```
 
@@ -45,13 +45,15 @@ The prompt is designed to stay readable in local terminals, remote shells, conta
 
 ### One-shot install
 
-For a new user starting from the remote repository:
+For a fresh install from the remote repository:
 
 ```bash
-git clone https://github.com/moolean/ytk_zsh_theme.git
-cd ytk_zsh_theme
+git clone https://github.com/moolean/lightweight-zsh-theme.git
+cd lightweight-zsh-theme
 bash install.sh
 ```
+
+If the GitHub repository has not been renamed yet, replace the clone URL with the current repository URL and keep the local directory name as `lightweight-zsh-theme`.
 
 If the repository is already present locally, run:
 
@@ -62,15 +64,15 @@ bash install.sh
 The installer will:
 
 - install Oh My Zsh into `~/.oh-my-zsh` if it is missing
-- symlink `ytk.zsh-theme` into the active Oh My Zsh theme directory
-- set `ZSH_THEME="ytk"` in `~/.zshrc`
+- symlink the theme file into the active Oh My Zsh theme directory
+- set `ZSH_THEME="lightweight"` in `~/.zshrc`
 - append a UTF-8 locale fallback block to `~/.zshrc` if it is not already present
 
 The installer is intentionally conservative:
 
 - it does not overwrite the whole `~/.zshrc`
 - it only updates the `ZSH_THEME` line if one already exists
-- it backs up an existing non-symlink `ytk` theme file before replacing it
+- it keeps a legacy `ytk` theme alias so existing setups do not break immediately
 
 Then start a new login shell:
 
@@ -80,16 +82,16 @@ exec zsh -l
 
 ### Manual install
 
-Clone or copy `ytk.zsh-theme` into your Oh My Zsh theme directory:
+Copy the canonical theme file into your Oh My Zsh theme directory:
 
 ```bash
-cp ytk.zsh-theme ~/.oh-my-zsh/themes/ytk.zsh-theme
+cp lightweight.zsh-theme ~/.oh-my-zsh/themes/lightweight.zsh-theme
 ```
 
 Then set the theme in `~/.zshrc`:
 
 ```zsh
-ZSH_THEME="ytk"
+ZSH_THEME="lightweight"
 ```
 
 Reload your shell:
@@ -100,13 +102,13 @@ source ~/.zshrc
 
 ## Symlink Workflow
 
-If you want to keep editing the theme in a separate repository checkout, you can symlink the active Oh My Zsh theme file:
+If you want to keep editing the theme from a checked-out repository, you can symlink the active Oh My Zsh theme file:
 
 ```bash
-ln -sf /path/to/ytk_zsh_theme/ytk.zsh-theme ~/.oh-my-zsh/themes/ytk.zsh-theme
+ln -sf /path/to/repo/lightweight.zsh-theme ~/.oh-my-zsh/themes/lightweight.zsh-theme
 ```
 
-This makes the checked-out repository your single source of truth.
+This keeps the checked-out repository as the single source of truth.
 
 ## Prompt Behavior
 
@@ -135,7 +137,14 @@ When the previous command fails, the prompt appends a readable segment:
 - On macOS and Windows-like shells, the flavor segment falls back to `macos` or `windows`.
 - Falls back to ASCII prompt connectors when the terminal is `dumb`.
 
+## Positioning
+
+- Lightweight by default: no right prompt, no patched font dependency, no heavy prompt decorations.
+- Portable across local terminals, remote shells, containers, and VS Code terminals.
+- Opinionated about clarity: the prompt shows only context that is usually worth keeping in view.
+
 ## Files
 
-- `ytk.zsh-theme`: the theme implementation.
+- `lightweight.zsh-theme`: the canonical theme implementation.
+- `ytk.zsh-theme`: legacy compatibility entry for existing users.
 - `install.sh`: one-shot installer for new users.

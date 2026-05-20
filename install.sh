@@ -4,17 +4,18 @@ set -euo pipefail
 
 REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 OH_MY_ZSH_DIR="${ZSH:-$HOME/.oh-my-zsh}"
-THEME_NAME="ytk"
-THEME_SOURCE="$REPO_DIR/ytk.zsh-theme"
+THEME_NAME="lightweight"
+THEME_SOURCE="$REPO_DIR/lightweight.zsh-theme"
 THEME_TARGET="$OH_MY_ZSH_DIR/themes/${THEME_NAME}.zsh-theme"
+LEGACY_THEME_TARGET="$OH_MY_ZSH_DIR/themes/ytk.zsh-theme"
 ZSHRC_PATH="$HOME/.zshrc"
 TIMESTAMP="$(date +%Y%m%d%H%M%S)"
 
-LOCALE_BLOCK_START="# >>> ytk locale fallback >>>"
-LOCALE_BLOCK_END="# <<< ytk locale fallback <<<"
+LOCALE_BLOCK_START="# >>> lightweight locale fallback >>>"
+LOCALE_BLOCK_END="# <<< lightweight locale fallback <<<"
 
 log() {
-  printf '[ytk-install] %s\n' "$*"
+  printf '[lightweight-install] %s\n' "$*"
 }
 
 ensure_oh_my_zsh() {
@@ -57,16 +58,19 @@ install_theme_link() {
 
   ln -sfn "$THEME_SOURCE" "$THEME_TARGET"
   log "Linked $THEME_TARGET -> $THEME_SOURCE"
+
+  ln -sfn "$THEME_TARGET" "$LEGACY_THEME_TARGET"
+  log "Linked legacy alias $LEGACY_THEME_TARGET -> $THEME_TARGET"
 }
 
 set_zsh_theme() {
   if grep -qE '^[[:space:]]*ZSH_THEME=' "$ZSHRC_PATH"; then
-    sed -i -E 's|^[[:space:]]*ZSH_THEME=.*$|ZSH_THEME="ytk"|' "$ZSHRC_PATH"
+    sed -i -E 's|^[[:space:]]*ZSH_THEME=.*$|ZSH_THEME="lightweight"|' "$ZSHRC_PATH"
   else
-    printf '\nZSH_THEME="ytk"\n' >> "$ZSHRC_PATH"
+    printf '\nZSH_THEME="lightweight"\n' >> "$ZSHRC_PATH"
   fi
 
-  log "Configured ZSH_THEME=\"ytk\" in $ZSHRC_PATH"
+  log "Configured ZSH_THEME=\"lightweight\" in $ZSHRC_PATH"
 }
 
 ensure_locale_block() {
@@ -76,7 +80,7 @@ ensure_locale_block() {
 
   cat <<'EOF' >> "$ZSHRC_PATH"
 
-# >>> ytk locale fallback >>>
+# >>> lightweight locale fallback >>>
 for zsh_locale in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8 zh_CN.UTF-8 zh_CN.utf8; do
   if locale -a 2>/dev/null | grep -qx "$zsh_locale"; then
     export LANG="$zsh_locale"
@@ -85,7 +89,7 @@ for zsh_locale in C.UTF-8 C.utf8 en_US.UTF-8 en_US.utf8 zh_CN.UTF-8 zh_CN.utf8; 
   fi
 done
 unset zsh_locale
-# <<< ytk locale fallback <<<
+# <<< lightweight locale fallback <<<
 EOF
 
   log "Appended UTF-8 locale fallback to $ZSHRC_PATH"
